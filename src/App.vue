@@ -12,6 +12,7 @@ import {
   onMounted,
   reactive,
   ref,
+  watch,
 } from 'vue'
 
 const followers = ref(0)
@@ -27,6 +28,12 @@ const user = reactive({
 const fullName = computed(() => `${user.firstName} ${user.lastName}`)
 
 const followUser = () => followers.value++
+
+watch(followers, (newFollowerCount, oldFollowerCount) => {
+  if (oldFollowerCount < newFollowerCount) {
+    console.log(`${user.username} has gained a follower!`)
+  }
+})
 
 onMounted(() => {
   followUser()
