@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
-    @{{ user.username }} - {{ fullName }}
-  </div>
+  @{{ user.username }} - {{ fullName }}
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue'
 
 export default defineComponent({
@@ -20,16 +18,14 @@ export default defineComponent({
       isAdmin: true,
     })
 
-    const fullName = computed(() => {
-      return `${user.firstName} ${user.lastName}`
-    })
+    const fullName = computed(() => `${user.firstName} ${user.lastName}`)
 
     return {
       followers,
       user,
       fullName,
     }
-  },
+  }
 })
 </script>
 
