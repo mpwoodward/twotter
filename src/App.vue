@@ -1,43 +1,11 @@
 <template>
   <div id="app">
-    @{{ user.username }} - {{ fullName }}
-    <strong>Followers: </strong> {{ followers }}
-    <button @click="followUser">Follow</button>
+    <UserProfile />
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from 'vue'
-
-const followers = ref(0)
-const user = reactive({
-  id: 1,
-  username: 'mpwoodward',
-  firstName: 'Matt',
-  lastName: 'Woodward',
-  email: 'mpwoodward@gmail.com',
-  isAdmin: true,
-})
-
-const fullName = computed(() => `${user.firstName} ${user.lastName}`)
-
-const followUser = () => followers.value++
-
-watch(followers, (newFollowerCount, oldFollowerCount) => {
-  if (oldFollowerCount < newFollowerCount) {
-    console.log(`${user.username} has gained a follower!`)
-  }
-})
-
-onMounted(() => {
-  followUser()
-})
+import UserProfile from '@/user/UserProfile.vue'
 </script>
 
 <style>
@@ -46,8 +14,7 @@ onMounted(() => {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+  min-height: 100vh;
+  background-color: #F3F5FA;
 }
 </style>
