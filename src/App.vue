@@ -1,31 +1,35 @@
 <template>
-  @{{ user.username }} - {{ fullName }}
+  <div id="app">
+    @{{ user.username }} - {{ fullName }}
+    <strong>Followers: </strong> {{ followers }}
+    <button @click="followUser">Follow</button>
+  </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue'
+<script lang="ts" setup>
+import {
+  computed,
+  onMounted,
+  reactive,
+  ref,
+} from 'vue'
 
-export default defineComponent({
-  name: 'App',
-  setup() {
-    const followers = ref(0)
-    const user = reactive({
-      id: 1,
-      username: 'mpwoodward',
-      firstName: 'Matt',
-      lastName: 'Woodward',
-      email: 'mpwoodward@gmail.com',
-      isAdmin: true,
-    })
+const followers = ref(0)
+const user = reactive({
+  id: 1,
+  username: 'mpwoodward',
+  firstName: 'Matt',
+  lastName: 'Woodward',
+  email: 'mpwoodward@gmail.com',
+  isAdmin: true,
+})
 
-    const fullName = computed(() => `${user.firstName} ${user.lastName}`)
+const fullName = computed(() => `${user.firstName} ${user.lastName}`)
 
-    return {
-      followers,
-      user,
-      fullName,
-    }
-  }
+const followUser = () => followers.value++
+
+onMounted(() => {
+  followUser()
 })
 </script>
 
@@ -34,8 +38,9 @@ export default defineComponent({
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 </style>
