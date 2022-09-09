@@ -6,15 +6,20 @@
           Twotter
         </div>
       </router-link>
+      <div class="navigation__user" v-if="user">
+        {{ user.username }}
+      </div>
     </nav>
-    <div class="navigation__user" v-if="user">
-      {{ user.username }}
-    </div>
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const user = computed(() => store.state.User.user)
 </script>
 
 <style lang="scss">

@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import store from '@/store/index'
+import { users } from '@/assets/users'
 import HomePage from '@/shared/HomePage.vue'
 
 const routes:Array<RouteRecordRaw> = [
@@ -28,6 +30,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  const user = store.state.user
+
+  if (!user) {
+    await store.dispatch('User/setUser', users[0])
+  }
+
   const isAdmin = false
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
 
