@@ -1,5 +1,5 @@
 <template>
-  <div class="twoot-item" @click="favoriteTwoot(props.twoot.id)">
+  <div class="twoot-item">
     <div class="user-profile__twoot">
       <div class="twoot-item__user">
         @{{ props.username }}
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, defineProps } from 'vue'
+import { defineProps } from 'vue'
 
 const props = defineProps({
   username: {
@@ -24,12 +24,6 @@ const props = defineProps({
     required: true,
   }
 })
-
-const emit = defineEmits(['favorite'])
-
-const favoriteTwoot = (id: number) => {
-  emit('favorite', id)
-}
 </script>
 
 <style lang="scss" scoped>
