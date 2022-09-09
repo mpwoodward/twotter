@@ -7,8 +7,12 @@
       <div class="user-profile__follower-count">
         <strong>Followers:</strong> {{ followers }}
       </div>
-      <form class="user-profile__create-twoot" @submit.prevent="createNewTwoot">
-        <label for="newTwoot"><strong>New Twoot</strong></label>
+      <form
+        class="user-profile__create-twoot"
+        @submit.prevent="createNewTwoot"
+        :class="{ '--exceeded': newTwootCharacterCount > 180 }"
+      >
+        <label for="newTwoot"><strong>New Twoot</strong> ({{ newTwootCharacterCount }}/180)</label>
         <textarea id="newToot" rows="4" v-model="newTwootContent" />
 
         <div class="user-profile__create-twoot-type">
@@ -85,6 +89,7 @@ const newTwootContent = ref('')
 const selectedTwootType = ref('instant')
 
 const fullName = computed(() => `${user.firstName} ${user.lastName}`)
+const newTwootCharacterCount = computed(() => newTwootContent.value.length)
 
 const followUser = () => followers.value++
 
@@ -113,40 +118,57 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
   width: 100%;
   padding: 50px 5%;
+
+  .user-profile__user-panel {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #DFE3E8;
+
+    h1 {
+      margin: 0;
+    }
+
+    .user-profile__admin-badge {
+      background: rebeccapurple;
+      color: white;
+      border-radius: 5px;
+      margin-right: auto;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+
+    .user-profile__create-twoot {
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+
+      &.--exceeded {
+        color: red;
+        border-color: red;
+
+        button {
+          background-color: red;
+          border: none;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .user-profile__twoots-wrapper {
+    display: grid;
+    grid-gap: 10px;
+  }
 }
 
-.user-profile__user-panel {
-  display: flex;
-  flex-direction: column;
-  margin-right: 50px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #DFE3E8;
-}
-
-.user-profile__admin-badge {
-  background: rebeccapurple;
-  color: white;
-  border-radius: 5px;
-  margin-right: auto;
-  padding: 0 10px;
-  font-weight: bold;
-}
-
-.user-profile__create-twoot {
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-h1 {
-  margin: 0;
-}
 </style>
