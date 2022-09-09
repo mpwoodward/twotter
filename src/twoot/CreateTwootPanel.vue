@@ -5,15 +5,15 @@
     :class="{ '--exceeded': newTwootCharacterCount > 180 }"
   >
     <label for="newTwoot"><strong>New Twoot</strong> ({{ newTwootCharacterCount }}/180)</label>
-    <textarea id="newToot" rows="4" v-model="newTwootContent" />
+    <textarea id="newToot" rows="4" v-model="state.newTwootContent" />
 
     <div class="create-twoot-panel__submit">
       <div class="create-twoot-type">
         <label for="newTwootType"><strong>Type: </strong></label>
-        <select id="newTwootType" v-model="selectedTwootType">
+        <select id="newTwootType" v-model="state.selectedTwootType">
           <option
             :value="option.value"
-            v-for="(option, index) in twootTypes"
+            v-for="(option, index) in state.twootTypes"
             :key="index"
           >
             {{ option.name }}
@@ -29,28 +29,31 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineEmits, ref } from 'vue'
+import { computed, defineEmits, reactive } from 'vue'
 
-const twootTypes = [
-  {
-    value: 'draft',
-    name: 'Draft'
-  },
-  {
-    value: 'instant',
-    name: 'Instant Twoot'
-  },
-]
-const newTwootContent = ref('')
-const selectedTwootType = ref('instant')
-const newTwootCharacterCount = computed(() => newTwootContent.value.length)
+const state = reactive({
+  newTwootContent: '',
+  selectedTwootType: 'instant',
+  twootTypes: [
+    {
+      value: 'draft',
+      name: 'Draft'
+    },
+    {
+      value: 'instant',
+      name: 'Instant Twoot'
+    },
+  ],
+})
+
+const newTwootCharacterCount = computed(() => state.newTwootContent.length)
 
 const emit = defineEmits(['add-twoot'])
 
 const createNewTwoot = () => {
-  if (newTwootContent.value && selectedTwootType.value !== 'draft') {
-    emit('add-twoot', newTwootContent.value)
-    newTwootContent.value = ''
+  if (state.newTwootContent && state.selectedTwootType !== 'draft') {
+    emit('add-twoot', state.newTwootContent)
+    state.newTwootContent = ''
   }
 }
 </script>
