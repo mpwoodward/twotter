@@ -1,19 +1,20 @@
 <template>
   <div id="app">
     <nav>
-      <div class="navigation__logo">
-        Twotter
-      </div>
+      <router-link to="/">
+        <div class="navigation__logo">
+          Twotter
+        </div>
+      </router-link>
     </nav>
     <div class="navigation__user" v-if="user">
       {{ user.username }}
     </div>
-    <UserProfile />
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts" setup>
-import UserProfile from '@/user/UserProfile.vue'
 </script>
 
 <style lang="scss">
